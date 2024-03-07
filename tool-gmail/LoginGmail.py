@@ -2,41 +2,52 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
 import time,re,sys
+sys.path.insert(0,r'C:\Users\Admin\Desktop\HCVIP - 3\Tools Py')
+from thuvien.thuvien import *
+
+ExcelApp = ExcelApp()
+CoKetQua = 'C'
 
 
-def find_and_send_keys(xpath, text):
-    element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
-    element.send_keys(text)
+for i in range (1,6):
+    ExcelApp.save_excel()
+    if ExcelApp.read_excel(f'{CoKetQua}{i}') != None:
+        continue
+    
+    DD_ProfileChrome = ExcelApp.read_excel(f'A{i}')
+    if DD_ProfileChrome == None: sys.exit('Next DD_ProfileChrome Not Found!!!')
+    print(f'{i} - DD_ProfileChrome: {DD_ProfileChrome}')
+    
+    Email = ExcelApp.read_excel(f'F{i}')
+    if Email == None: sys.exit('Next Email Not Found!!!')
+    print(f'{i} - Email: {Email}')
 
-def find_and_click(xpath):
-    element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath)))
-    element.click()
-def find_and_get_text(xpath):
-    element = driver.find_element(By.XPATH, xpath).text
-    return element
-def webdriver_wait(xpath):
-    WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+    PassWord = ExcelApp.read_excel(f'G{i}')
+    if Email == None: sys.exit('Next PassWord Not Found!!!')
+    print(f'{i} - PassWord: {PassWord}')
 
-url = 'https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ifkv=ATuJsjw7UOfPexJS2oHjXCIe5ge4D5xeX1mo1NZ1momjxfe0NzGJ3MDSTpd33Zu9GTYJYrVOqEwAeA&rip=1&sacu=1&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S285482712%3A1709709427651026&theme=glif'
+    EmailRecovery = ExcelApp.read_excel(f'H{i}')
+    if EmailRecovery == None: sys.exit('Next EmailRecovery Not Found!!!')
+    print(f'{i} - EmailRecovery: {EmailRecovery}')
 
-user_data_dir = r'C:\Users\Admin\Desktop\HCVIP - 3\ChromeProfile\ChromeProfile\ChromeProfile - 1'
-options = webdriver.ChromeOptions()
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
-options.add_experimental_option('useAutomationExtension', False)
-options.add_argument('--start-maximized')
-options.add_argument('--disable-web-security')
-options.add_argument('--allow-running-insecure-content')
-options.add_argument(f'--user-data-dir={user_data_dir}')
+    # options = uc.ChromeOptions()
+    # options.add_argument("--ignore-certificate-error")
+    # options.add_argument("--ignore-ssl-errors")
+    # options.add_argument("--profile-directory={TenProfile}")
+    # options.add_argument(f'--user-data-dir={DD_ProfileChrome}')
+    # # Khởi tạo trình duyệt với các tùy chọn đã thiết lập
+    # driver = uc.Chrome(options=options)
 
-driver = webdriver.Chrome(options=options)
-driver.get(url)
-
-find_and_send_keys('//*[@id="identifierId"]','congminh25112002@gmail.com')
-find_and_click('//*[@id="identifierNext"]/div/button')
-find_and_send_keys('//*[@id="password"]/div[1]/div/div[1]/input','Minhcffc@321')
-
-
-
-
-
+    # driver.get('https://accounts.google.com/')
+    # # add email
+    # driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(email)
+    # driver.find_element(By.XPATH, '//*[@id="identisfierNext"]/div/button/span').click()
+    # time.sleep(10)
+    # driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/input').send_keys(password)
+    # driver.find_element(By.XPATH, '//*[@id="passwordNext"]/div/button/span').click()
+    # time.sleep(10)
+    # driver.quit()
+    
+    
